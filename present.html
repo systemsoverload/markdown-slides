@@ -18,20 +18,27 @@
         </style>
     </head>
     <body>
-        <div id="toolbar"
-        <div class="container" id="slides">
-          <div class="slide">Fart</div>
-        </div>
-
+        <button id="fullscreen" type="button">Test FullScreen</button>
         <script>
             var ipc = require('ipc');
 
             function renderSlide(md){
-                return ipc.sendSync('renderSlide', md);
+                    return ipc.sendSync('renderSlide', md);
+            }
+
+            function toggleFullScreen() {
+                if (!document.webkitFullscreenElement){
+                    document.documentElement.webkitRequestFullscreen();
+                } else {
+                    document.webkitExitFullscreen();
+                }
             }
 
             document.addEventListener('DOMContentLoaded', function () {
-
+                document.getElementById('fullscreen').addEventListener('click', function(){
+                    console.log('fudge')
+                    toggleFullScreen();
+                });
             });
 
         </script>

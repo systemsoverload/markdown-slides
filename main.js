@@ -47,7 +47,7 @@ app.on('ready', function() {
 
 ipc.on('editPresentation', function(event, args){
   editWindow = new BrowserWindow({width: 800, height: 600});
-  editWindow.loadUrl('file://' + __dirname + '/edit.html');
+  editWindow.loadUrl('file://' + __dirname + '/present.html');
   editWindow.openDevTools();
 
   editWindow.on('closed', function() {
@@ -74,4 +74,4 @@ ipc.on('loadFiles', function(event, args){
 
 ipc.on('renderSlide', function(event, md){
   event.returnValue = marked(md);
-})
+});
