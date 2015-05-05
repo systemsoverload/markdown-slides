@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello World!</title>
+        <style>
+            #presentations{
+                margin: 0 auto;
+            }
+            .container {
+               display: table;
+               border-spacing: 10px;
+               border-collapse: separate;
+            }
+
+            .row  {
+               display: table-row;
+            }
+
+            .presentation {
+               display: table-cell;
+               background-color: #f9f9f9;
+               height: 135px;
+               width: 240px;
+               margin: 3px;
+            }
+        </style>
+    </head>
+    <body>
+        <h4>Presentations</h4>
+        <div class="container" id="presentations">
+          <div class="row" id="row1"></div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var ipc = require('ipc');
+                var presentations = ipc.sendSync('get-stuff');
+
+                for (var i = 0; i < presentations.length; i++) {
+                    var presentation = presentations[i];
+                    document.getElementById('row1').innerHTML += "<div class='presentation'>"+ presentation.fileName+"</div>";
+                };
+            });
+        </script>
+    </body>
+</html>
