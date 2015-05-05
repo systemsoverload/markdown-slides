@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello World!</title>
+        <style type="text/css">
+            #slides{
+                display:flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                align-content: flex-start;
+                align-items: flex-start;
+            }
+            .slide{
+                width: 300px;
+                height: 250px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="toolbar"
+        <div class="container" id="slides">
+          <div class="slide">Fart</div>
+        </div>
+
+        <script>
+            var ipc = require('ipc');
+
+            function renderSlide(md){
+                return ipc.sendSync('renderSlide', md);
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+
+            });
+
+        </script>
+    </body>
+</html>
+
+
+<!-- background:radial-gradient(#77d19e,#46c17b);/ -->

@@ -5,6 +5,7 @@ var ipc = require('ipc');
 var fs = require('fs');
 var marked = require('marked');
 
+
 marked.setOptions({
   renderer: new marked.Renderer(),
   gfm: true,
@@ -19,6 +20,7 @@ marked.setOptions({
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the javascript object is GCed.
 var mainWindow = null;
+var editWindow = null;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -43,17 +45,33 @@ app.on('ready', function() {
   });
 });
 
+ipc.on('editPresentation', function(event, args){
+  editWindow = new BrowserWindow({width: 800, height: 600});
+  editWindow.loadUrl('file://' + __dirname + '/edit.html');
+  editWindow.openDevTools();
 
-ipc.on('get-stuff', function(event, args){
+  editWindow.on('closed', function() {
+    editWindow = null;
+  });
+});
+
+ipc.on('loadFiles', function(event, args){
   var res = [];
   var files = glob.sync(__dirname + '/*.md');
 
   for (var i = 0; i < files.length; i++) {
     var file = files[i];
     var data = fs.readFileSync(file, {encoding: 'utf8'});
-    res.push({"fileName": file, "html": marked(data)});
+    var slides = data.split('---');
+    res.push({
+      "fileName": file.substring(file.lastIndexOf("/")).replace("/", ""),
+      "slides": slides
+    });
   };
 
   event.returnValue = res;
 });
 
+ipc.on('renderSlide', function(event, md){
+  event.returnValue = marked(md);
+})

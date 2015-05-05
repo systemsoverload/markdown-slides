@@ -3,43 +3,59 @@
     <head>
         <title>Hello World!</title>
         <style>
+            body{
+                margin: 40px 100px 40px 100px;
+            }
             #presentations{
                 margin: 0 auto;
             }
             .container {
-               display: table;
-               border-spacing: 10px;
-               border-collapse: separate;
-            }
-
-            .row  {
-               display: table-row;
+               display:flex;
+               flex-direction: row;
+               flex-wrap: wrap;
+               justify-content: flex-start;
+               align-content: flex-start;
+               align-items: flex-start;
             }
 
             .presentation {
-               display: table-cell;
                background-color: #f9f9f9;
                height: 135px;
                width: 240px;
-               margin: 3px;
+               margin: 20px;
+            }
+            .preview{
+                height: 100%;
+                zoom: 0.4;
             }
         </style>
     </head>
     <body>
         <h4>Presentations</h4>
-        <div class="container" id="presentations">
-          <div class="row" id="row1"></div>
-        </div>
+        <div class="container" id="presentations"></div>
         <script>
+            var ipc = require('ipc');
+
+            function renderSlide(md){
+                return ipc.sendSync('renderSlide', md);
+            }
+
             document.addEventListener('DOMContentLoaded', function () {
-                var ipc = require('ipc');
-                var presentations = ipc.sendSync('get-stuff');
+                var presentations = ipc.sendSync('loadFiles');
 
                 for (var i = 0; i < presentations.length; i++) {
                     var presentation = presentations[i];
-                    document.getElementById('row1').innerHTML += "<div class='presentation'>"+ presentation.fileName+"</div>";
+                    var p = document.getElementById('presentations');
+                    p.innerHTML += "<div class='presentation'><div class='preview'>"+ renderSlide(presentation.slides[0]) +"</div><div class='fileName'>"+ presentation.fileName+"</div></div>";
+                };
+
+                var presDivs = document.getElementsByClassName('presentation');
+                for (var i = 0; i < presDivs.length; i++) {
+                    var presDiv = presDivs[i];
+                    presDiv.addEventListener('click', function(){ ipc.send('editPresentation'); });
                 };
             });
+
         </script>
     </body>
 </html>
