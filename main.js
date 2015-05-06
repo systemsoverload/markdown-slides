@@ -21,6 +21,7 @@ marked.setOptions({
 // be closed automatically when the javascript object is GCed.
 var mainWindow = null;
 var editWindow = null;
+var presentationWindow = null;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -45,9 +46,9 @@ app.on('ready', function() {
   });
 });
 
-ipc.on('editPresentation', function(event, args){
+ipc.on('editPresentation', function(event, presentationFile){
   editWindow = new BrowserWindow({width: 800, height: 600});
-  editWindow.loadUrl('file://' + __dirname + '/present.html');
+  editWindow.loadUrl('file://' + __dirname + '/edit.html');
   editWindow.openDevTools();
 
   editWindow.on('closed', function() {
@@ -55,21 +56,23 @@ ipc.on('editPresentation', function(event, args){
   });
 });
 
+
+var presentations = [];
+
 ipc.on('loadFiles', function(event, args){
-  var res = [];
   var files = glob.sync(__dirname + '/*.md');
 
   for (var i = 0; i < files.length; i++) {
     var file = files[i];
     var data = fs.readFileSync(file, {encoding: 'utf8'});
     var slides = data.split('---');
-    res.push({
+    presentations.push({
       "fileName": file.substring(file.lastIndexOf("/")).replace("/", ""),
       "slides": slides
     });
   };
 
-  event.returnValue = res;
+  event.returnValue = presentations;
 });
 
 ipc.on('renderSlide', function(event, md){
