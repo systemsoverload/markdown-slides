@@ -1,3 +1,26 @@
 body{
-	background-image: -webkit-radial-gradient(#77d19e, #46c17b);
+	height: 100%;
+}
+
+.footer{
+	font-size: 0.75em;
+	position: absolute;
+	bottom: 5px;
+}
+
+#viewer{
+	background-image: -webkit-radial-gradient(#77d19e, #46c17b);	
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+#slide-number{
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+}
+slide{
+	display: none;
 }

@@ -15,7 +15,7 @@ title: Python WHUT
 	>>> x == 1.25
 ```
 
----
+--
 
 # Division
 
