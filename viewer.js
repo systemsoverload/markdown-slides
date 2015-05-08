@@ -17,9 +17,11 @@ document.addEventListener('DOMContentLoaded', function () {
 				slideNumber.innerHTML = position + 1 + '/' + slides.length;
 			}
 		}else if (e.keyCode == 39){
-			position += 1;
-			viewer.innerHTML = slides[position].innerHTML;
-			slideNumber.innerHTML = position + 1 + '/' + slides.length;
+			if (position < slides.length - 1){			
+				position += 1;
+				viewer.innerHTML = slides[position].innerHTML;
+				slideNumber.innerHTML = position + 1 + '/' + slides.length;
+			}
 		}
 	});
 });
