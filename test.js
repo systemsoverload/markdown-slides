@@ -4,9 +4,9 @@ var pygmentize = require('pygmentize-bundled')
 
 marked.setOptions({
   highlight: function (code, lang, callback) {
-  	pygmentize({ lang: lang, format: 'html' }, code, function (err, result) {
-      callback(err, result.toString());
-    })
+	pygmentize({ lang: lang, format: 'html' }, code, function (err, result) {
+	  callback(err, result.toString());
+	})
   }
 });
 
@@ -16,24 +16,24 @@ function Presentation(slides, cfg){
 	self.title = cfg.title ? cfg.title : "";
 	self.footer = cfg.footer ? '<div class="footer">'+ marked(cfg.footer) +'</div>' : "";
 	self.stylesheet = '<link rel="stylesheet" href="'+cfg.theme+'"></link>';
-    self.head = '<head><title>' + self.title + '</title>' + self.stylesheet + '</head>';
-    self.body = '<body><div id="viewer"></div>' + self.footer;
+	self.head = '<head><title>' + self.title + '</title>' + self.stylesheet + '</head>';
+	self.body = '<body><div id="viewer"></div>' + self.footer;
 
-    var slideRenderCount = 0;
-    self.slideRendered = function(slide){
-    	slideRenderCount += 1
-    	if(slideRenderCount == self.slides.length){
-    		self.slides.forEach(function(slide){
-    			self.body += slide.html;
-    		});
-    		self.emit('ready', self)
-    	}
-    }
+	var slideRenderCount = 0;
+	self.slideRendered = function(slide){
+		slideRenderCount += 1
+		if(slideRenderCount == self.slides.length){
+			self.slides.forEach(function(slide){
+				self.body += slide.html;
+			});
+			self.emit('ready', self)
+		}
+	}
 
 	self.render = function(){
 		self.slides.forEach(function(slide){
 			slide.on('rendered', self.slideRendered)
-			slide.render();	
+			slide.render();
 		});
 	}
 
@@ -49,34 +49,34 @@ function Presentation(slides, cfg){
 }
 
 Presentation.prototype = {
-	
+
 	get html(){
 		var endBody = '<div id="slide-number"></div><script type="text/javascript" src="viewer.js"></script></body>';
-		return '<!DOCTYPE html><html>'+ this.head + this.body + endBody +'</html>'; 
+		return '<!DOCTYPE html><html>'+ this.head + this.body + endBody +'</html>';
 	}
 }
 
 function Slide(config, markdown, number, children, isChild){
 	var self = this;
-	self.isChild = isChild ? false : isChild
+	self.isChild = isChild == true ? true : false
 	self.config = config;
 	self.markdown = markdown;
 	self.number = number;
 	self.children = children;
 	self.childHtml = ''
 
-    var childRenderCount = 0;
-    self.childRendered = function(child){
-    	childRenderCount += 1
-    	if(childRenderCount == self.children.length){
-    		self.children.forEach(function(child){
-    			self.childHtml += child.html;
-    		});
-    	}
-    }
+	var childRenderCount = 0;
+	self.childRendered = function(child){
+		childRenderCount += 1
+		if(childRenderCount == self.children.length){
+			self.children.forEach(function(child){
+				self.childHtml += child.html;
+			});
+		}
+	}
 
 	//Generate HTML from markdown and apply all syntax highlighting
-	self.render = function(){	
+	self.render = function(){
 		self.children.forEach(function(child){
 			child.on('rendered', self.childRendered);
 			child.render();
@@ -138,7 +138,7 @@ slides_md.forEach(function(slide, slideNo){
 		})
 	}
 	var slideCfg = parseSlideCfg(slide);
-	var s = new Slide(slideCfg, slide, slideNo, children);
+	var s = new Slide(slideCfg, slide, slideNo, children, false);
 	slides.push(s);
 });
 
