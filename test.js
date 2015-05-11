@@ -56,16 +56,34 @@ Presentation.prototype = {
 	}
 }
 
-function Slide(config, markdown, number){
+function Slide(config, markdown, number, children, isChild){
 	var self = this;
+	self.isChild = isChild ? false : isChild
 	self.config = config;
 	self.markdown = markdown;
 	self.number = number;
+	self.children = children;
+	self.childHtml = ''
 
+    var childRenderCount = 0;
+    self.childRendered = function(child){
+    	childRenderCount += 1
+    	if(childRenderCount == self.children.length){
+    		self.children.forEach(function(child){
+    			self.childHtml += child.html;
+    		});
+    	}
+    }
 
+	//Generate HTML from markdown and apply all syntax highlighting
 	self.render = function(){	
+		self.children.forEach(function(child){
+			child.on('rendered', self.childRendered);
+			child.render();
+		});
 		marked(self.markdown, function(err, content){
-			self.html = '<slide>' + content + '</slide>'
+			var tag = self.isChild ? 'subslide' : 'slide';
+			self.html = '<'+tag+'>' + content + self.childHtml + '</'+tag+'>'
 			self.emit('rendered');
 		});
 	}
@@ -88,9 +106,7 @@ var slides = [];
 var configKeywords = {'title': {'global': true}, 'footer': {'global': true}};
 var presentationCfg = {'theme': './test.css'};
 
-
-// Parse config data from each slide
-slides_md.forEach(function(slide, slideNo){
+function parseSlideCfg(slide){
 	var lines = slide.split('\n');
 	var cfg = {};
 	lines.forEach(function(line){
@@ -106,7 +122,23 @@ slides_md.forEach(function(slide, slideNo){
 			}
 		}
 	});
-	var s = new Slide(cfg, slide, slideNo);
+	return cfg
+}
+
+// Parse config data and child-slides from each slide
+slides_md.forEach(function(slide, slideNo){
+	var children = [];
+	var subSlides = slide.split('--')
+	if (subSlides.length > 1){
+		subSlides.forEach(function(subSlide, idx){
+			if (idx){
+				var subSlideCfg = parseSlideCfg(subSlide);
+				children.push(new Slide(subSlideCfg, subSlide, idx, [], true));
+			}
+		})
+	}
+	var slideCfg = parseSlideCfg(slide);
+	var s = new Slide(slideCfg, slide, slideNo, children);
 	slides.push(s);
 });
 

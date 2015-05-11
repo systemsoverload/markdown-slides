@@ -2,10 +2,14 @@ footer: TJ Kells | http://kells.tj | https://github.com/systemsoverload
 title: Python WHUT
 # Python... Whut?
 
+# 1
+
 ---
 
 # Lets talk about... Division
 
+# 2
+
 ---
 
 # Division
@@ -14,20 +18,22 @@ title: Python WHUT
 	>>> x = 5/4
 	>>> x == 1.25
 ```
+# 3
 
 --
 
-# Division
+# 3.1
+This should pop up separate!
 
-```python
-	>>> x = 5/4
-	>>> x == 1.25
-	False
-```
+--
+
+# 3.2
+This too!
 
 ---
 # Whut
 ![fit original](http://memecrunch.com/meme/1ZOHR/whut-baby/image.png)
+# 4
 
 ---
 # Division
@@ -40,6 +46,7 @@ future imports FTW
 	True
 ```
 ![](http://memecrunch.com/meme/1ZOHR/whut-baby/image.png)
+#5
 
 ---
 # Division
