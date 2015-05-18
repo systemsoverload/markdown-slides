@@ -7,22 +7,29 @@ document.addEventListener('DOMContentLoaded', function () {
 	slides = document.getElementsByTagName('slide');
 	viewer = document.getElementById('viewer');
 	slideNumber = document.getElementById('slide-number');
-	viewer.innerHTML = slides[position].innerHTML;
+	viewer.innerHTML = slides[position].outerHTML;
+	currentSlide = viewer.getElementsByTagName('slide')[0];
+	currentSlide.classList.add('active');
 	slideNumber.innerHTML = position + 1 + '/' + slides.length;
+
 
 	document.addEventListener('keyup', function(e){
 		e.preventDefault();
 		if (e.keyCode == 37){
 			if (position > 0){
 				position -= 1;
-				viewer.innerHTML = slides[position].innerHTML;
+				viewer.innerHTML = slides[position].outerHTML;
+				currentSlide = viewer.getElementsByTagName('slide')[0];
+				currentSlide.classList.add('active');
 				slideNumber.innerHTML = position + 1 + '/' + slides.length;
 				childPosition = 0;
 			}
 		}else if (e.keyCode == 39){
 			if (position < slides.length - 1){
 				position += 1;
-				viewer.innerHTML = slides[position].innerHTML;
+				viewer.innerHTML = slides[position].outerHTML;
+				currentSlide = viewer.getElementsByTagName('slide')[0];
+				currentSlide.classList.add('active');
 				slideNumber.innerHTML = position + 1 + '/' + slides.length;
 				childPosition = 0;
 			}
@@ -31,6 +38,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			var childSlides = slides[position].getElementsByTagName('subslide');
 			if (childSlides.length){
 				childPosition -= 1;
+				curSubSlide = viewer.getElementsByTagName('subslide')[childPosition];
+				curSubSlide.classList.remove('active');
 				delete viewer.getElementsByTagName('subslide')
 			}
 		}else if (e.keyCode == 40){
@@ -38,6 +47,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			var childSlides = slides[position].getElementsByTagName('subslide');
 			if (childSlides.length){
 				viewer.innerHTML += childSlides[childPosition].outerHTML;
+				curSubSlide = viewer.getElementsByTagName('subslide')[childPosition];
+				curSubSlide.classList.add('active');
 				childPosition += 1;
 			}
 		}

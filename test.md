@@ -2,13 +2,9 @@ footer: TJ Kells | http://kells.tj | https://github.com/systemsoverload
 title: Python WHUT
 # Python... Whut?
 
-# 1
-
 ---
 
 # Lets talk about... Division
-
-# 2
 
 ---
 
@@ -32,10 +28,11 @@ This too!
 
 ---
 # Whut
-![fit original](http://memecrunch.com/meme/1ZOHR/whut-baby/image.png)
+![fit](http://memecrunch.com/meme/1ZOHR/whut-baby/image.png)
 # 4
 
 ---
+background:![](http://memecrunch.com/meme/1ZOHR/whut-baby/image.png)
 # Division
 future imports FTW
 
@@ -45,10 +42,9 @@ future imports FTW
 	>>> 5/4 == 1.25
 	True
 ```
-![](http://memecrunch.com/meme/1ZOHR/whut-baby/image.png)
-#5
 
 ---
+background: ![](http://memecrunch.com/meme/1ZOHR/whut-baby/image.png)
 # Division
 Implicit > explicit
 
@@ -56,9 +52,9 @@ Implicit > explicit
 	>>> 5.0/4.0 == 1.25
 	True
 ```
-![](http://memecrunch.com/meme/1ZOHR/whut-baby/image.png)
 
 ---
+background: ![](http://memecrunch.com/meme/1ZOHR/whut-baby/image.png)
 # Division
 ... or just use python3.
 
@@ -71,8 +67,6 @@ Implicit > explicit
 	>>> 5/4 == 1.25
 	True
 ```
-![](http://memecrunch.com/meme/1ZOHR/whut-baby/image.png)
-
 ---
 # Lets talk about... Commas
 
@@ -100,6 +94,7 @@ TypeError: 'int' object has no attribute '__getitem__'
 ![fit original](http://i.imgur.com/xGOCXdj.jpg)
 
 ---
+background: ![](http://i.imgur.com/xGOCXdj.jpg)
 # Commas
 The suit may make the man, but the comma makes the tuple
 
@@ -108,9 +103,9 @@ The suit may make the man, but the comma makes the tuple
 	>>> a[0]
 	1
 ```
-![](http://i.imgur.com/xGOCXdj.jpg)
 
 ---
+background: ![](http://i.imgur.com/xGOCXdj.jpg)
 # Commas
 Commas also unpack args...
 
@@ -122,9 +117,8 @@ Commas also unpack args...
 	>>> c == 3
 	True
 ```
-![](http://i.imgur.com/xGOCXdj.jpg)
-
 ---
+background: ![](http://i.imgur.com/xGOCXdj.jpg)
 # Commas
 Not safely though
 
@@ -134,9 +128,9 @@ Not safely though
 	  File "<stdin>", line 1, in <module>
 	ValueError: too many values to unpack (expected 1)
 ```
-![](http://i.imgur.com/xGOCXdj.jpg)
 
 ---
+background: ![](http://i.imgur.com/xGOCXdj.jpg)
 # Commas
 Python3 variable length unpack FTW
 
@@ -147,7 +141,6 @@ Python3 variable length unpack FTW
 	>>> b
 	[2, 3, 4, 5]
 ```
-![](http://i.imgur.com/xGOCXdj.jpg)
 
 ---
 # Lets talk about... Mutable Defaults
@@ -190,6 +183,7 @@ Python3 variable length unpack FTW
 
 
 ---
+background: ![](http://i.imgur.com/1xYgQRk.jpg)
 # Mutable Defaults
 
 - Stored in add\_a\_python.func_defaults (\_\_defaults\_\_ in py3k)
@@ -201,7 +195,6 @@ Python3 variable length unpack FTW
 - Can use the builtin locals() to debug this
 - Mutations to these defaults persists between function calls
 
-![](http://i.imgur.com/1xYgQRk.jpg)
 
 ---
 # Lets talk about... Chained Comparison
@@ -227,6 +220,7 @@ Python3 variable length unpack FTW
 
 ---
 
+background: ![](http://i.imgur.com/GRd8Nmr.jpg)
 # Chained Comparisons Actually am Awesome
 
 - Joined with implicit and's
@@ -241,10 +235,8 @@ Python3 variable length unpack FTW
 	>>> if end_date <= day <= end_date:
 	...     print('Actually am code ninja')
 ```
-
-![](http://i.imgur.com/GRd8Nmr.jpg)
-
 ---
+background: ![](http://i.imgur.com/GRd8Nmr.jpg)
 # Learn you a bytecode for great justice
 
 ```python
@@ -276,8 +268,6 @@ Python3 variable length unpack FTW
              22 POP_TOP
              23 RETURN_VALUE
 ```
-
-![](http://i.imgur.com/GRd8Nmr.jpg)
 
 ---
 # Lets talk about... Object Identity
@@ -325,6 +315,7 @@ Python3 variable length unpack FTW
 ![fit original](http://i.imgur.com/1WubAiB.jpg)
 
 ---
+background: ![](http://i.imgur.com/1WubAiB.jpg)
 #Object Identity
 
 Even Whutter
@@ -334,9 +325,9 @@ Even Whutter
 	>>> a is b
 	True
 ```
-![](http://i.imgur.com/1WubAiB.jpg)
 
 ---
+background: ![](http://i.imgur.com/1WubAiB.jpg)
 # Object Identity
 **Or is it?**
 - Can get at code object memory addresses with builtin id func
@@ -357,18 +348,15 @@ Even Whutter
 	4372438992
 
 ```
-![](http://i.imgur.com/1WubAiB.jpg)
 
 ---
+background: ![](http://i.imgur.com/1WubAiB.jpg)
 # Object Identity
 - `is` operator tests for identity NOT equivalence
 - This Whut == REPL/Cpython detail
 	- Ex. PyPy Int objects return their values from id()
 - Cpython caches ints -6 - 256
 - Module level compiliation corrects this, unlikely to see in the wild
-
-![](http://i.imgur.com/1WubAiB.jpg)
-
 
 ---
 # Lets talk about... Mutable Aliasing
@@ -400,27 +388,26 @@ Even Whutter
 
 
 ---
+background: ![](http://i.imgur.com/c2xqlUJ.jpg)
 # Easy Mnemonic
 - Assignment never copies data
 
-![](http://i.imgur.com/c2xqlUJ.jpg)
-
 ---
+background: ![](http://i.imgur.com/c2xqlUJ.jpg)
 # Easy Mnemonic
 - Assignment never copies data
 - Assignment never copies data
 
-![](http://i.imgur.com/c2xqlUJ.jpg)
 
 ---
+background: ![](http://i.imgur.com/c2xqlUJ.jpg)
 # Easy Mnemonic
 - Assignment never copies data
 - Assignment never copies data
 - Assignment never copies data
 
-![](http://i.imgur.com/c2xqlUJ.jpg)
-
 ---
+background: ![](http://i.imgur.com/c2xqlUJ.jpg)
 # "But Nobody ever gets this wrong!"
 
 ```python
@@ -438,7 +425,6 @@ Even Whutter
 	[2, 3, 4, 5]
 ```
 
-![](http://i.imgur.com/c2xqlUJ.jpg)
 
 ---
 # Resources
