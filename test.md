@@ -29,7 +29,6 @@ This too!
 ---
 # Whut
 ![fit](http://memecrunch.com/meme/1ZOHR/whut-baby/image.png)
-# 4
 
 ---
 background:![](http://memecrunch.com/meme/1ZOHR/whut-baby/image.png)
