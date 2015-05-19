@@ -36,17 +36,15 @@
         <script>
             var ipc = require('ipc');
 
-            function renderSlide(md){
-                return ipc.sendSync('renderSlide', md);
-            }
-
             document.addEventListener('DOMContentLoaded', function () {
                 var presentations = ipc.sendSync('loadFiles');
 
                 for (var i = 0; i < presentations.length; i++) {
                     var presentation = presentations[i];
+                    var firstSlide = presentation.slides[0];
+
                     var p = document.getElementById('presentations');
-                    p.innerHTML += "<div class='presentation'><div class='preview'>"+ renderSlide(presentation.slides[0]) +"</div><div class='fileName'>"+ presentation.fileName+"</div></div>";
+                    p.innerHTML += "<div class='presentation'><div class='preview'>"+ firstSlide.html +"</div><div class='fileName'>"+ presentation.title+"</div></div>";
                 };
 
                 var presDivs = document.getElementsByClassName('presentation');

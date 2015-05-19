@@ -3,25 +3,11 @@ var BrowserWindow = require('browser-window');  // Module to create native brows
 var glob = require('glob');
 var ipc = require('ipc');
 var fs = require('fs');
-var marked = require('marked');
+var Presentation = require('./presentation.js')
+var Slide = require('./slide.js')
+var util = require('./util.js')
 
-
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
-  breaks: false,
-  pedantic: false,
-  sanitize: true,
-  smartLists: true,
-  smartypants: false
-});
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the javascript object is GCed.
 var mainWindow = null;
-var editWindow = null;
-var presentationWindow = null;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -46,17 +32,6 @@ app.on('ready', function() {
   });
 });
 
-ipc.on('editPresentation', function(event, presentationFile){
-  editWindow = new BrowserWindow({width: 800, height: 600});
-  editWindow.loadUrl('file://' + __dirname + '/edit.html');
-  editWindow.openDevTools();
-
-  editWindow.on('closed', function() {
-    editWindow = null;
-  });
-});
-
-
 var presentations = [];
 
 ipc.on('loadFiles', function(event, args){
@@ -64,12 +39,10 @@ ipc.on('loadFiles', function(event, args){
 
   for (var i = 0; i < files.length; i++) {
     var file = files[i];
-    var data = fs.readFileSync(file, {encoding: 'utf8'});
-    var slides = data.split('---');
-    presentations.push({
-      "fileName": file.substring(file.lastIndexOf("/")).replace("/", ""),
-      "slides": slides
-    });
+    var parsed = util.parseFile(file)
+    var p = new Presentation(parsed.slides, parsed.presentationCfg)
+    p.render();
+    presentations.push(p);
   };
 
   event.returnValue = presentations;
@@ -78,3 +51,4 @@ ipc.on('loadFiles', function(event, args){
 ipc.on('renderSlide', function(event, md){
   event.returnValue = marked(md);
 });
+

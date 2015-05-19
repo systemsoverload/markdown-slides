@@ -1,3 +1,15 @@
+var marked = require('marked');
+var pygmentize = require('pygmentize-bundled');
+
+marked.setOptions({
+    highlight: function (code, lang, callback) {
+        pygmentize({ lang: lang, format: 'html' }, code, function (err, result) {
+            callback(err, result.toString());
+        })
+    }
+});
+
+
 function Slide(config, markdown, number, children, isChild){
 	var self = this;
 	self.isChild = isChild == true ? true : false;
@@ -48,6 +60,17 @@ function Slide(config, markdown, number, children, isChild){
 	}
 
 	self.emit = function(evt, data){
-		self.listeners[evt](self);
+		if (self.listeners[evt]){
+			self.listeners[evt](self);
+		}
 	}
 }
+
+Slide.prototype = {
+
+    get butt(){
+    	return 'butt'
+    }
+}
+module.exports = Slide;
+
