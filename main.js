@@ -8,6 +8,7 @@ var Slide = require('./slide.js')
 var util = require('./util.js')
 
 var mainWindow = null;
+var editWindow = null;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -48,7 +49,24 @@ ipc.on('loadFiles', function(event, args){
   event.returnValue = presentations;
 });
 
-ipc.on('renderSlide', function(event, md){
-  event.returnValue = marked(md);
+
+ipc.on('loadFile', function(event, fileName){
+
+    var parsed = util.parseFile(fileName);
+    var p = new Presentation(parsed.slides, parsed.presentationCfg)
+    p.render();
+
+    event.returnValue = p;
+});
+
+
+ipc.on('editPresentation', function(event, presentationFile){
+  editWindow = new BrowserWindow({width: 800, height: 600});
+  editWindow.loadUrl('file://' + __dirname + '/edit.html?file=' + presentationFile);
+  editWindow.openDevTools();
+
+  editWindow.on('closed', function() {
+    editWindow = null;
+  });
 });
 

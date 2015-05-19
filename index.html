@@ -50,7 +50,7 @@
                 var presDivs = document.getElementsByClassName('presentation');
                 for (var i = 0; i < presDivs.length; i++) {
                     var presDiv = presDivs[i];
-                    presDiv.addEventListener('click', function(){ ipc.send('editPresentation'); });
+                    presDiv.addEventListener('click', function(){ ipc.send('editPresentation', 'test.md'); });
                 };
             });
 
