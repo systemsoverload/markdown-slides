@@ -187,10 +187,10 @@ function parseFile(fileName){
 }
 
 var parsed = parseFile("./test.md");
-console.log(parsed)
+
 var presentation = new Presentation(parsed.slides, parsed.presentationCfg);
 presentation.render();
 presentation.on('ready', function(pres){
-	// console.log(pres.html);
+	console.log(pres.html);
 });
 
