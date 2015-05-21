@@ -9,28 +9,37 @@ exports.parseFile = function(fileName){
 	var configKeywords = {'title': {'global': true}, 'footer': {'global': true}, 'background': {'global': false}};
 	var presentationCfg = {'theme': './test.css'};
 
-	function parseSlideCfg(slide){
+	function parseSlide(slide){
 		var lines = slide.split('\n');
 		var cfg = {};
 		var cfgLines = [];
+		var images = [];
 
 		lines.forEach(function(line, idx){
-			var c = line.split(':');
-			var cfgToken = c[0];
-			var cfgValue= line.split(cfgToken + ':')[1];
-			//Found something that looks like config, see if its one of the cfg keywords
-			if (configKeywords.hasOwnProperty(cfgToken)){
-				cfgLines.push(idx);
+			var re = /!\[([^)]+)\]\(([^)]+)\)/;
+			var match = line.match(re);
+			if (match){
+				console.log(match);
+			}else{
+				var c = line.split(':');
+				var cfgToken = c[0];
+				var cfgValue= line.split(cfgToken + ':')[1];
+				//Found something that looks like config, see if its one of the cfg keywords
+				if (configKeywords.hasOwnProperty(cfgToken)){
+					cfgLines.push(idx);
 
-				//Some things should be applied to the slideshow as a whole
-				if (configKeywords[cfgToken].global){
-					presentationCfg[cfgToken] = cfgValue.trim();
-				} else {
-					cfg[cfgToken] = cfgValue.trim();
+					//Some things should be applied to the slideshow as a whole
+					if (configKeywords[cfgToken].global){
+						presentationCfg[cfgToken] = cfgValue.trim();
+					} else {
+						cfg[cfgToken] = cfgValue.trim();
+					}
 				}
 			}
+
+
 		});
-		return {'cfg': cfg, 'cfgLines': cfgLines}
+		return {'cfg': cfg, 'cfgLines': cfgLines, 'images': images}
 	}
 
 	// Parse config data and child-slides from each slide
@@ -43,7 +52,7 @@ exports.parseFile = function(fileName){
 			subSlides.forEach(function(subSlide, idx){
 				if (idx){
 					slide = slide.replace(subSlide, '')
-					var res = parseSlideCfg(slide);
+					var res = parseSlide(slide);
 					var cfg = res.cfg;
 					var cfgLines = res.cfgLines;
 					var x = slide.split('\n').filter(function(e, idx, arr){ return !(cfgLines.indexOf(idx) > -1)}).join('\n');
@@ -51,7 +60,7 @@ exports.parseFile = function(fileName){
 				}
 			})
 		}
-		var res = parseSlideCfg(slide);
+		var res = parseSlide(slide);
 		var cfg = res.cfg;
 
 		var cfgLines = res.cfgLines;

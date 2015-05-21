@@ -17,20 +17,27 @@ app.on('window-all-closed', function() {
 });
 
 app.on('ready', function() {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600});
+    editWindow = new BrowserWindow({width: 800, height: 600});
+    editWindow.loadUrl('file://' + __dirname + '/edit.html?file=test.md');
+    editWindow.openDevTools();
 
-  // and load the index.html of the app.
-  mainWindow.loadUrl('file://' + __dirname + '/index.html');
-  mainWindow.openDevTools();
+    editWindow.on('closed', function() {
+        editWindow = null;
+    });
+  // // Create the browser window.
+  // mainWindow = new BrowserWindow({width: 800, height: 600});
 
-  // Emitted when the window is closed.
-  mainWindow.on('closed', function() {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null;
-  });
+  // // and load the index.html of the app.
+  // mainWindow.loadUrl('file://' + __dirname + '/index.html');
+  // mainWindow.openDevTools();
+
+  // // Emitted when the window is closed.
+  // mainWindow.on('closed', function() {
+  //   // Dereference the window object, usually you would store windows
+  //   // in an array if your app supports multi windows, this is the time
+  //   // when you should delete the corresponding element.
+  //   mainWindow = null;
+  // });
 });
 
 var presentations = [];
@@ -61,7 +68,7 @@ ipc.on('loadFile', function(event, fileName){
 
 
 ipc.on('editPresentation', function(event, presentationFile){
-  editWindow = new BrowserWindow({width: 800, height: 600});
+  editWindow = new BrowserWindow({width: 800, height: 600, alwaysOnTop: true});
   editWindow.loadUrl('file://' + __dirname + '/edit.html?file=' + presentationFile);
   editWindow.openDevTools();
 

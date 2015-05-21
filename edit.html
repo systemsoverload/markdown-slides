@@ -12,22 +12,20 @@
                 align-content: flex-start;
                 align-items: flex-start;
             }
-            .slide{
-              margin: 3px;
-              background-color: #f1f1f1;
-              width: 240px;
-              height: 135px;
-            }
             slide, subslide{
                 display: block;
             }
             slide{
+                margin: 3px;
+                /*background-color: #f1f1f1;*/
+                width: 240px;
+                height: 135px;
+            }
+            .slide-content{
                 zoom: 0.4;
             }
             img[alt="fit"], img[alt="fit original"]{
-                width:100%;
-                height:100%;
-
+                display: none;
             }
         </style>
     </head>
@@ -45,7 +43,7 @@
                 for (var i = 0; i < presentation.slides.length; i++) {
                     var slide = presentation.slides[i];
                     var s = document.getElementById('slides');
-                    s.innerHTML += '<div class="slide">'+ slide.html +'</div>';
+                    s.innerHTML += slide.html;
                 };
             });
 

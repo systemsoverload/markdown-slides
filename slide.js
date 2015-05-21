@@ -20,8 +20,8 @@ function Slide(config, markdown, number, children, isChild){
 	self.childHtml = '';
 	self.class = config.titleSlide ? 'inverse' : 'normal';
 
-	var rgx = /\(([^)]+)\)/;
-	var backgroundImgUrl = config.background ? config.background.match(rgx)[1] : null;
+	var re = /\[([^)]+)\]\(([^)]+)\)/;
+	var backgroundImgUrl = config.background ? config.background.match(re)[1] : null;
 	self.backgroundImg = backgroundImgUrl ? '<div class="background-image" style="background: url(\''+backgroundImgUrl +'\') no-repeat center center fixed;"></div>' : '';
 
 	var childRenderCount = 0;
