@@ -1,14 +1,16 @@
+---
 footer: TJ Kells | http://kells.tj | https://github.com/systemsoverload
 title: Python WHUT
-# Python... Whut?
+layout: test.css
+tags: python data-structures
+comments: true
+---
 
-# 1
+# Python... Whut?
 
 ---
 
 # Lets talk about... Division
-
-# 2
 
 ---
 

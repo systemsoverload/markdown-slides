@@ -1,13 +1,21 @@
 var fs = require('fs');
 var Slide = require('./slide.js');
 
-
 exports.parseFile = function(fileName){
 	var data = fs.readFileSync(fileName, {encoding: 'utf8'});
-	var slides_md = data.split('---');
+	var slides_md = data.split('---').slice(2, data.split('---').length)
+	var pCfg = data.split('---').slice(1, 2)[0].trim().split('\n')
 	var slides = [];
 	var configKeywords = {'title': {'global': true}, 'footer': {'global': true}, 'background': {'global': false}};
 	var presentationCfg = {'theme': './test.css'};
+
+	//Rip through the yaml-ish cfg at the top of the presentation
+	pCfg.forEach(function(option){
+		var optionName = option.split(':')[0]
+		var optionValue = option.split(optionName + ':')[1]
+		presentationCfg[optionName] = optionValue;
+	});
+
 
 	function parseSlide(slide){
 		var lines = slide.split('\n');
@@ -15,29 +23,14 @@ exports.parseFile = function(fileName){
 		var cfgLines = [];
 		var images = [];
 
-		lines.forEach(function(line, idx){
-			var re = /!\[([^)]+)\]\(([^)]+)\)/;
-			var match = line.match(re);
+		lines.forEach(function(line, lineNo){
+			//Find things that look like MD image defs
+			var imgRe = /!\[([^)]*)\]\(([^)]+)\)/;
+			var match = line.match(imgRe);
 			if (match){
-				console.log(match);
-			}else{
-				var c = line.split(':');
-				var cfgToken = c[0];
-				var cfgValue= line.split(cfgToken + ':')[1];
-				//Found something that looks like config, see if its one of the cfg keywords
-				if (configKeywords.hasOwnProperty(cfgToken)){
-					cfgLines.push(idx);
-
-					//Some things should be applied to the slideshow as a whole
-					if (configKeywords[cfgToken].global){
-						presentationCfg[cfgToken] = cfgValue.trim();
-					} else {
-						cfg[cfgToken] = cfgValue.trim();
-					}
-				}
+				images.push({'url': match[2], 'options': match[1].split(' ')})
+				cfgLines.push(lineNo)
 			}
-
-
 		});
 		return {'cfg': cfg, 'cfgLines': cfgLines, 'images': images}
 	}
@@ -55,7 +48,7 @@ exports.parseFile = function(fileName){
 					var res = parseSlide(slide);
 					var cfg = res.cfg;
 					var cfgLines = res.cfgLines;
-					var x = slide.split('\n').filter(function(e, idx, arr){ return !(cfgLines.indexOf(idx) > -1)}).join('\n');
+					var cfgLessLines = slide.split('\n').filter(function(e, id, arr){ return !(cfgLines.indexOf(idx) > -1)}).join('\n');
 					children.push(new Slide(cfg, subSlide, idx, [], true));
 				}
 			})
@@ -64,12 +57,12 @@ exports.parseFile = function(fileName){
 		var cfg = res.cfg;
 
 		var cfgLines = res.cfgLines;
-		var x = slide.split('\n').filter(function(e, idx, arr){ return !(cfgLines.indexOf(idx) > -1)})
+		var cfgLessLines = slide.split('\n').filter(function(e, idx, arr){ return !(cfgLines.indexOf(idx) > -1)})
 
 		// If a slide only has a single entry, assume its a title page and reverse the color scheme
-		cfg.titleSlide = x.filter(function(item){ return !!(item.replace(/[\W_]+/g,"")); }).length == 1 ? true : false;
+		cfg.titleSlide = cfgLessLines.filter(function(item){ return !!(item.replace(/[\W_]+/g,"")); }).length == 1 ? true : false;
 
-		slides.push(new Slide(cfg, x.join('\n'), slideNo, children, false));
+		slides.push(new Slide(cfg, cfgLessLines.join('\n'), slideNo, children, false));
 	});
 
 	return {'slides': slides, 'presentationCfg': presentationCfg}
