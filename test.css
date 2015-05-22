@@ -35,8 +35,20 @@ body{
     position: absolute;
     top: 0;
     left: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+
 }
 
+.background-image-fit{
+    background-size: inherit;
+}
+
+.background-image-original{
+    opacity: 1;
+}
 
 .footer{
     margin-left: 15px;

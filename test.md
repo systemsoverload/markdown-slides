@@ -1,9 +1,7 @@
 ---
 footer: TJ Kells | http://kells.tj | https://github.com/systemsoverload
 title: Python WHUT
-layout: test.css
-tags: python data-structures
-comments: true
+theme: ./test.css
 ---
 
 # Python... Whut?
@@ -35,7 +33,6 @@ This too!
 ---
 # Whut
 ![fit original](http://memecrunch.com/meme/1ZOHR/whut-baby/image.png)
-# 4
 
 ---
 # Division
@@ -48,7 +45,6 @@ future imports FTW
 	True
 ```
 ![](http://memecrunch.com/meme/1ZOHR/whut-baby/image.png)
-#5
 
 ---
 # Division

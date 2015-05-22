@@ -19,10 +19,18 @@ function Slide(config, markdown, number, children, isChild){
 	self.children = children;
 	self.childHtml = '';
 	self.class = config.titleSlide ? 'inverse' : 'normal';
+	self.images = config.images ? config.images : null;
 
-	var re = /\[([^)]+)\]\(([^)]+)\)/;
-	var backgroundImgUrl = config.background ? config.background.match(re)[1] : null;
-	self.backgroundImg = backgroundImgUrl ? '<div class="background-image" style="background: url(\''+backgroundImgUrl +'\') no-repeat center center fixed;"></div>' : '';
+	// FIXME - this only handles 1 image per slide ATM
+	var backgroundImg = self.images[0] ? self.images[0] : null;
+
+	var backgroundImgHtml = '<div class="background-image {styles}" style="background-image: url(\'{url}\');"></div>';
+	var styles = backgroundImg ? backgroundImg.options.map(function(x){ return 'background-image-'+x}) : null;
+	self.backgroundImg = backgroundImg ? backgroundImgHtml.format({
+		"url": backgroundImg.url,
+		"styles": styles.join(' ')
+	}) : '';
+
 
 	var childRenderCount = 0;
 	self.childRendered = function(child){
