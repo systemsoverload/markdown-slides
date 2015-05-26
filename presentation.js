@@ -66,7 +66,11 @@ Presentation.prototype = {
     get html(){
         var endBody = '<div id="slide-number"></div><script type="text/javascript" src="viewer.js"></script></body>';
         return '<!DOCTYPE html><html>'+ this.head + this.body + endBody +'</html>';
-    }
+    },
+
+    get preview(){
+        return self.slides[0].html
+    },
 }
 
 
