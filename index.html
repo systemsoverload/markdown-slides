@@ -1,38 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Hello World!</title>
-        <style>
-            body{
-                margin: 40px 100px 40px 100px;
-            }
-            #presentations{
-                margin: 0 auto;
-            }
-            .container {
-               display:flex;
-               flex-direction: row;
-               flex-wrap: wrap;
-               justify-content: flex-start;
-               align-content: flex-start;
-               align-items: flex-start;
-            }
-
-            .presentation {
-               background-color: #f9f9f9;
-               height: 135px;
-               width: 240px;
-               margin: 20px;
-            }
-            .preview{
-                height: 100%;
-                zoom: 0.4;
-            }
-        </style>
+        <title>Markdown-Slides</title>
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/base.css">
     </head>
     <body>
-        <h4>Presentations</h4>
-        <div class="container" id="presentations"></div>
+        <div id="toolbar"><span id="close" class="toolbar-ctl fa fa-times"></span><span id="minimize" class="toolbar-ctl fa fa-minus"></span><span id="maximize" class="toolbar-ctl fa fa-plus"></span></div>
+        <div class="content" id="presentations"></div>
         <script>
             var ipc = require('ipc');
 
@@ -41,10 +16,9 @@
 
                 for (var i = 0; i < presentations.length; i++) {
                     var presentation = presentations[i];
-                    var firstSlide = presentation.slides[0];
 
                     var p = document.getElementById('presentations');
-                    p.innerHTML += "<div class='presentation'><div class='preview'>"+ firstSlide.html +"</div><div class='fileName'>"+ presentation.title+"</div></div>";
+                    p.innerHTML += "<div class='presentation'><div class='preview'>"+ presentation.preview +"</div><div class='fileName'>"+ presentation.title+"</div></div>";
                 };
 
                 var presDivs = document.getElementsByClassName('presentation');
@@ -55,5 +29,7 @@
             });
 
         </script>
+        <script type="text/javascript" src="js/base.js"></script>
     </body>
 </html>
+

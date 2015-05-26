@@ -1,37 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Hello World!</title>
+        <title>Markdown-Slides</title>
         <link rel="stylesheet" type="text/css" href="./theme.css">
-        <style type="text/css">
-            #slides{
-                display:flex;
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: flex-start;
-                align-content: flex-start;
-                align-items: flex-start;
-            }
-            slide, subslide{
-                display: block;
-            }
-            slide{
-                margin: 3px;
-                /*background-color: #f1f1f1;*/
-                width: 240px;
-                height: 135px;
-            }
-            .slide-content{
-                zoom: 0.4;
-            }
-            img[alt="fit"], img[alt="fit original"]{
-                display: none;
-            }
-        </style>
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/base.css">
     </head>
     <body>
-        <div id="toolbar"></div>
-        <div class="container" id="slides"></div>
+        <div id="toolbar"><span id="close" class="toolbar-ctl fa fa-times"></span><span id="minimize" class="toolbar-ctl fa fa-minus"></span><span id="maximize" class="toolbar-ctl fa fa-plus"></span></div>
+        <div class="content" id="slides"></div>
 
         <script>
             var ipc = require('ipc');
@@ -48,6 +25,7 @@
             });
 
         </script>
+        <script type="text/javascript" src="js/base.js"></script>
     </body>
 </html>
 
